@@ -29,8 +29,24 @@ function makeArray(days) {
   
     const newTable = document.createElement("table");
     newTable.innerHTML = "<caption>" +choice+ "</caption>"; 
-   // newTable.appendChild(document.createElement("tr"));
+
+
+    //newTable.appendChild(document.createElement("tr"));
     //newTable.innerHTML += "<thead>"
+    //const newHead = document.createElement("td");
+
+    for (var i = 0; i<24; i++){
+      const newColm = document.createElement("th");
+      const thHead = document.createElement("td");
+      thHead.textContent = i;
+      //console.log(String(i));
+      newColm.appendChild(thHead);
+      //console.log(thHead.textContext);
+      newTable.appendChild(newColm);
+    }
+    
+    //newTable.innerHTML += "</thead>"
+    newTable.appendChild(document.createElement("tr"));
 
     //"<thead><th>Hour</th><th>Day</th></thead>";
     for (var counter in vanc) {
