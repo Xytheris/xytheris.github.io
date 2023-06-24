@@ -9,11 +9,25 @@
 </head>
 <body>
     
+<div id="parameters">
+    <div>Days <input type="text" id="DaysToRender"></div>
+     <div>Age <input type="text" id="inputAge"></div>
+     <div>Gender<select id="inputGender">
+        <option value="Male">Male</option>
+        <option value="Female">Female</option></select>
+    </div>
+    <div>Weight
+    <input type="text" id="inputWeight" placeholder="kg"></div>
+    <div> Height
+    <input type="text" id="inputHeight"placeholder="cm"></div>
+    <div>Serum Creatinine
+    <input type="text" id="inputSCr"></div>
 
-    <input type="text" id="DaysToRender">
     <input type="button" id="render" onclick="buildEverything()" value="Click"> 
     <div id="target" >
     </div>
+</div>
 
+    
 </body>
 </html>

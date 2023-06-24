@@ -51,35 +51,31 @@ function makeArray(days) {
     //"<thead><th>Hour</th><th>Day</th></thead>";
     for (var counter in vanc) {
   
-      const newCol = document.createElement("td");
-  
-      const tdDay = document.createElement("tr");
-      const tdHour = document.createElement("tr");
-      const tdDose = document.createElement("tr");
-      const tdLevel = document.createElement("tr");
-      tdDay.textContent = vanc[counter].day;
-      tdHour.textContent = vanc[counter].hour;
-      tdDose.textContent = vanc[counter].dose;
-      tdLevel.textContent = vanc[counter].level;
+
   
   
       switch (choice) {
         case 'day':
-          newCol.appendChild(tdDay);
+          const tdDay = document.createElement("td");
+          tdDay.textContent = vanc[counter].day;
+          newTable.appendChild(tdDay);
           break;
         case 'hour':
-          newCol.appendChild(tdHour);
+          const tdHour = document.createElement("td");
+          tdHour.textContent = vanc[counter].hour;
+          newTable.appendChild(tdHour);
           break;
         case 'dose':
-          newCol.appendChild(tdDose);
+          const tdDose = document.createElement("td");
+          tdDose.textContent = vanc[counter].dose;
+          newTable.appendChild(tdDose);
           break;
         case 'level':
-          newCol.appendChild(tdLevel);
+          const tdLevel = document.createElement("td");
+          tdLevel.textContent = vanc[counter].level;
+          newTable.appendChild(tdLevel);
           break;
       }
-  
-      newTable.appendChild(newCol);
-  
   
       //check next day is within array parameters
       var nextDay = 0;
@@ -91,6 +87,12 @@ function makeArray(days) {
       if (vanc[Number(counter)].day < nextDay) {
         console.log("new row created");
         newTable.appendChild(document.createElement("tr"));
+        /*
+        const dayHeader = document.createElement("th");
+        dayHeader.textContent = vanc[Number(counter)].day;
+        newTable.appendChild(dayHeader);
+        for column header but work on it later
+        */ 
       }
     }
   

@@ -1,27 +1,21 @@
 table{
-    border: solid 3px black;
-    margin-right: auto;
-    margin-left: auto;
-    vertical-align: middle;
-    text-align: center;
-  }
-  
-  td{
-    vertical-align: middle;
-    text-align: center;
-    margin: auto;
-  }
-  
-  table td{
-    border: solid 1px red;
-    width: 30px;
-    height: 30px;
-    vertical-align: middle;
-    text-align: center;
-    margin: auto;
-  }
-  
-  
-  
-  
-  
+  border: solid 1px black;
+  color:black;
+
+}
+
+table td{
+  border: solid 1px blue;
+  width: 100px;
+  height: 100px;
+  margin:auto;
+  text-align:center;
+}
+
+td tr{
+  width:100%;
+  margin:auto;
+  font-size:30px;
+}
+
+
