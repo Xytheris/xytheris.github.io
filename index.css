@@ -1,13 +1,13 @@
 table{
   border: solid 1px black;
   color:black;
-
+  margin: auto;
 }
 
 table td{
-  border: solid 1px blue;
-  width: 100px;
-  height: 100px;
+  border: solid 1px rgb(12, 12, 85);
+  width: 30px;
+  height: 15px;
   margin:auto;
   text-align:center;
 }
