@@ -1,4 +1,4 @@
-function makeArray(days) {
+function makeArray(days,K) {
     var vanc = [];
     //var days = 5;
     var index = 0;
@@ -12,6 +12,7 @@ function makeArray(days) {
           hour: i,
           dose: 0,
           level: 0,
+          K: K,
           key: index
         }
         //console.log(vanc[index]);
@@ -67,12 +68,20 @@ function makeArray(days) {
           break;
         case 'dose':
           const tdDose = document.createElement("td");
-          tdDose.textContent = vanc[counter].dose;
+          if(vanc[counter].dose==0){
+            tdDose.textContent = null;
+          }else{
+            tdDose.textContent = vanc[counter].dose;
+          }
           newTable.appendChild(tdDose);
           break;
         case 'level':
           const tdLevel = document.createElement("td");
+          if(vanc[counter].level == 0){
+            tdLevel.textContent = null;
+          }else{
           tdLevel.textContent = vanc[counter].level;
+          }
           newTable.appendChild(tdLevel);
           break;
       }
@@ -122,23 +131,116 @@ function makeArray(days) {
   
     i = findIndex(vanc, day, hour);
     vanc[i].dose = dosageGiven;
-    console.log(vanc[i].dose);
+    //console.log(vanc[i].dose);
   
+  }
+
+  function makeLevel(vanc, levelGiven, day, hour) {
+  
+    i = findIndex(vanc, day, hour);
+    vanc[i].level = levelGiven;
+    //console.log(vanc[i].dose);
+  
+  }
+
+  function makeTableDosedLevels(vancObjArray){
+    for (var counter in vancObjArray){
+
+      //console.log (vancObjArray[Number(counter) - 1]);
+      
+      if(vancObjArray[Number(counter) - 1] == undefined){
+        //prevVanc = vancObjArray[Number(counter) - 1];
+        prevVanc = {
+        day: 0,
+        hour: 0,
+        dose: 0,
+        level: 0,
+        K: vancObjArray[counter].K,
+        key: 0
+        }
+        console.log("Previous day was undefined")
+      }else{
+        prevVanc = vancObjArray[Number(counter) - 1];
+      }
+      
+      
+      currentLevel = vancObjArray[counter].level;
+      newDosedLevel = dosedLevel(vancObjArray[counter],100);
+      newLevel = currentLevel+newDosedLevel;
+      /*
+      if(prevVanc.level > currentLevel){
+        newLevel = decayedLevel(prevVanc,1,prevVanc.K);
+      }else{
+        newLevel = currentLevel;
+      }*/
+
+      vancObjArray[counter].level = newLevel;
+      
+    }
+
+  }
+
+  function makeTableLevels(vancObjArray){
+
+    for (var counter in vancObjArray){
+
+      //console.log (vancObjArray[Number(counter) - 1]);
+      
+      if(vancObjArray[Number(counter) - 1] == undefined){
+        //prevVanc = vancObjArray[Number(counter) - 1];
+        prevVanc = {
+        day: 0,
+        hour: 0,
+        dose: 0,
+        level: 0,
+        K: vancObjArray[counter].K,
+        key: 0
+        }
+        console.log("Previous day was undefined")
+      }else{
+        prevVanc = vancObjArray[Number(counter) - 1];
+      }
+      
+      
+      currentLevel = vancObjArray[counter].level;
+
+      if(prevVanc.level > currentLevel){
+        newLevel = decayedLevel(prevVanc,1,prevVanc.K);
+      }else{
+        newLevel = currentLevel;
+      }
+
+      vancObjArray[counter].level = newLevel;
+      
+    }
+
   }
   
   function buildEverything() {
     //days = 3;
   
     var days = document.getElementById("DaysToRender").value;
+    var K = document.getElementById("inputK").value;
 
+    
     document.getElementById("target").innerHTML = "";
       
-    array = makeArray(days);
+    array = makeArray(days,K);
     makeDose(array, 1000, 1, 22);
+    makeLevel(array,50,1,1);
+    makeLevel(array,30,2,1);
+
+    makeTableDosedLevels(array);
+    makeTableLevels(array);
+
+
     makeTable(array,'dose');
-    makeTable(array,'hour');
-    makeTable(array,'day');
     makeTable(array,'level');
+
+
+
+    //makeTable(array,'hour');
+    //makeTable(array,'day');
   }
   
   //buildEverything();
