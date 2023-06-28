@@ -9,9 +9,9 @@ testobj= {
 function decayedLevel(vancObj,time,k){
 
     currentLevel = vancObj.level;
-    level = currentLevel*(Math.pow(Math.E,-k*time));
-    console.log("Level changed from " + currentLevel + " to" + level);
-    return Math.round(level*10)/10;
+    decayLevel = currentLevel*(Math.pow(Math.E,-k*time));
+    console.log("Level changed from " + currentLevel + " to" + decayLevel);
+    return Math.round(decayLevel*10)/10;
 }
 
 function dosedLevel(vancObj, Vd){

@@ -202,11 +202,14 @@ function makeTableDosedLevels(vancObjArray) {
     }
 
     //console.log(prevVanc);
-    currentLevel = vancObjArray[counter].level;
+
+      currentLevel = decayedLevel(prevVanc, 1, prevVanc.K);
+
+
     newDosedLevel = dosedLevel(vancObjArray[counter], 42);
     console.log("current level is " +currentLevel + "new DosedLevel is "+ newDosedLevel);
 
-    newLevel = currentLevel + newDosedLevel;
+    newLevel = newDosedLevel;
 
     //console.log(prevVanc.level);
     /*
@@ -217,15 +220,27 @@ function makeTableDosedLevels(vancObjArray) {
     }*/
 
     vancObjArray[counter].level = Math.round(newLevel*10)/10;
-
+// spawned levels are missing when above is changed from vancObjArray[counter].changedLevel = Math.round(newLevel*10)/10;
   }
 
 }
 
 function makeTableLevels(vancObjArray) {
 
+  //write something here the rewrites the entire table if restarting over
   for (var counter in vancObjArray) {
-
+    if(vancObjArray[counter].changedLevel == 0){
+    vancObjArray[counter].changedLevel = vancObjArray[counter].level;
+    }
+    if(vancObjArray[counter].dose!=0){
+      vancObjArray[counter].level = 0;
+    }
+    if(vancObjArray[counter].changedLevel!=0){
+      vancObjArray[counter].level = 0;
+    }
+  }
+  for (var counter in vancObjArray) {
+    
     //console.log (vancObjArray[Number(counter) - 1]);
 
     if (vancObjArray[Number(counter) - 1] == undefined) {
@@ -244,17 +259,54 @@ function makeTableLevels(vancObjArray) {
       prevVanc = vancObjArray[Number(counter) - 1];
     }
 
-    console.log(prevVanc);
-    currentLevel = vancObjArray[counter].level;
 
+    dosedLevelVar = dosedLevel(vancObjArray[counter],42);
+    newLevel = decayedLevel(prevVanc, 1, prevVanc.K)+dosedLevelVar+vancObjArray[counter].level;
+    vancObjArray[counter].level = Math.round(newLevel*10)/10;
+    
+    //currentLevel = vancObjArray[counter].changedLevel;
+
+
+
+    /* THIS ONE SEMI WORKS FOR NOW...
+      currentLevel = vancObjArray[counter].changedLevel;
+      dosedLevelVar = dosedLevel(vancObjArray[counter],42);
+      newLevel = decayedLevel(prevVanc, 1, prevVanc.K)+dosedLevelVar;
+      */
+      /*
+    if(vancObjArray[counter].changedLevel < vancObjArray[counter].level ){
+      currentLevel = vancObjArray[counter].changedLevel;
+      dosedLevelVar = dosedLevel(vancObjArray[counter],42);
+      newLevel = decayedLevel(prevVanc, 1, prevVanc.K)+dosedLevelVar;
+    }else{
+      currentLevel = vancObjArray[counter].level;
+      dosedLevelVar = dosedLevel(vancObjArray[counter],42);
+      newLevel = decayedLevel(prevVanc, 1, prevVanc.K)+dosedLevelVar;
+      //vancObjArray[counter].changedLevel = vancObjArray[counter].level;
+    }
+    vancObjArray[counter].changedLevel = vancObjArray[counter].level;*/
+/*
+    if(vancObjArray[counter].changedLevel == vancObjArray[counter].level){
+      currentLevel = vancObjArray[counter].level;
+      dosedLevelVar = dosedLevel(vancObjArray[counter],42);
+      newLevel = currentLevel+decayedLevel(prevVanc, 1, prevVanc.K)+dosedLevelVar;
+    }else{
+      currentLevel = vancObjArray[counter].changedLevel;
+      dosedLevelVar = dosedLevel(vancObjArray[counter],42);
+      newLevel = currentLevel+decayedLevel(prevVanc, 1, prevVanc.K)+dosedLevelVar;
+      //vancObjArray[counter].changedLevel = vancObjArray[counter].level;
+    }*/
+    
+    
+/*
     if (prevVanc.level > currentLevel) {
       newLevel = decayedLevel(prevVanc, 1, prevVanc.K);
     } else {
-      newLevel = currentLevel;
-    }
-
-    vancObjArray[counter].level = Math.round(newLevel*10)/10;
-
+      newLevel = currentLevel+decayedLevel(prevVanc, 1, prevVanc.K);
+    }*/
+    //vancObjArray[counter].changedLevel
+    
+    //vancObjArray[counter].changedLevel = Math.round(newLevel*10)/10;
   }
 
 }
@@ -270,11 +322,12 @@ function buildEverything() {
 
   array = makeArray(days, K);
   makeLevel(array, 20, 1, 21);
-  makeDose(array, 1500, 1, 22);
-
+  makeLevel(array, 20, 1, 5);
+  makeDose(array, 1000, 1, 22);
+  //makeDose(array, 1000, 1, 21);
   //makeLevel(array,30,2,1);
   makeTableLevels(array);
-  makeTableDosedLevels(array);
+  //makeTableDosedLevels(array);
 
 
 
@@ -290,21 +343,23 @@ function buildEverything() {
       document.getElementById("target").addEventListener("input",  function(){ //make this on button refresh
         somethingChanged();
         remakeTables();
-      }, false);*/
-
+      }, false);
+*/
   //makeTable(array,'hour');
   //makeTable(array,'day');
 }
 
 function remakeTables() {
   document.getElementById("target").innerHTML = "";
+
+  //makeTableDosedLevels(array);
   makeTableLevels(array);
-  makeTableDosedLevels(array);
 
 
 
   makeTable(array, 'dose');
   makeTable(array, 'level');
+  makeTable(array, 'changedLevel');
 
 }
   //buildEverything();
