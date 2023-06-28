@@ -175,6 +175,7 @@ function makeLevel(vanc, levelGiven, day, hour) {
 
   i = findIndex(vanc, day, hour);
   vanc[i].level = levelGiven;
+  vanc[i].changedLevel = 1;
   //console.log(vanc[i].dose);
 
 }
@@ -229,13 +230,11 @@ function makeTableLevels(vancObjArray) {
 
   //write something here the rewrites the entire table if restarting over
   for (var counter in vancObjArray) {
-    if(vancObjArray[counter].changedLevel == 0){
-    vancObjArray[counter].changedLevel = vancObjArray[counter].level;
-    }
+    initValue = vancObjArray[counter].level;
     if(vancObjArray[counter].dose!=0){
       vancObjArray[counter].level = 0;
     }
-    if(vancObjArray[counter].changedLevel!=0){
+    if(vancObjArray[counter].level!=0 && vancObjArray[counter].changedLevel!=1){
       vancObjArray[counter].level = 0;
     }
   }
@@ -347,6 +346,12 @@ function buildEverything() {
 */
   //makeTable(array,'hour');
   //makeTable(array,'day');
+
+  document.getElementById("target").addEventListener("keypress",  function(e){ //make this on button refresh
+    if(e.key==='Enter'){
+    somethingChanged(array);
+    remakeTables();}
+  });
 }
 
 function remakeTables() {
