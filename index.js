@@ -151,35 +151,6 @@ function makeTable(vanc, choice) {
 
 }
 
-
-
-function findIndex(vanc, day, hour) {
-  for (let i = 0; i < vanc.length; i++) {
-    if (vanc[i].day == day && vanc[i].hour == hour) {
-      return vanc[i].key;
-    }
-  }
-}
-
-
-
-function makeDose(vanc, dosageGiven, day, hour) {
-
-  i = findIndex(vanc, day, hour);
-  vanc[i].dose = dosageGiven;
-  //console.log(vanc[i].dose);
-
-}
-
-function makeLevel(vanc, levelGiven, day, hour) {
-
-  i = findIndex(vanc, day, hour);
-  vanc[i].level = levelGiven;
-  vanc[i].changedLevel = 1;
-  //console.log(vanc[i].dose);
-
-}
-
 function makeTableDosedLevels(vancObjArray) {
 
   for (var counter in vancObjArray) {
@@ -236,10 +207,17 @@ function makeTableLevels(vancObjArray) {
     }
     if(vancObjArray[counter].level!=0 && vancObjArray[counter].changedLevel!=1){
       vancObjArray[counter].level = 0;
-    }
+    }/*
+    if(vancObjArray[counter].changedLevel==1){
+      vancObjArray[counter].level = initValue;
+    }*/
   }
+  
+  
+  
+  
   for (var counter in vancObjArray) {
-    
+    initValue = vancObjArray[counter].level;
     //console.log (vancObjArray[Number(counter) - 1]);
 
     if (vancObjArray[Number(counter) - 1] == undefined) {
@@ -261,7 +239,14 @@ function makeTableLevels(vancObjArray) {
 
     dosedLevelVar = dosedLevel(vancObjArray[counter],42);
     newLevel = decayedLevel(prevVanc, 1, prevVanc.K)+dosedLevelVar+vancObjArray[counter].level;
-    vancObjArray[counter].level = Math.round(newLevel*10)/10;
+    if(vancObjArray[counter].changedLevel==1){
+      vancObjArray[counter].level = initValue;
+    }else{
+      vancObjArray[counter].level = Math.round(newLevel*10)/10;
+
+
+    }
+    
     
     //currentLevel = vancObjArray[counter].changedLevel;
 
@@ -297,7 +282,7 @@ function makeTableLevels(vancObjArray) {
     }*/
     
     
-/*
+/*.1111
     if (prevVanc.level > currentLevel) {
       newLevel = decayedLevel(prevVanc, 1, prevVanc.K);
     } else {
@@ -315,7 +300,7 @@ function buildEverything() {
 
   var days = document.getElementById("DaysToRender").value;
   var K = document.getElementById("inputK").value;
-
+  var Vd
 
   document.getElementById("target").innerHTML = "";
 
