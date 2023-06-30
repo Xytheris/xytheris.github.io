@@ -19,3 +19,7 @@ function dosedLevel(vancObj, Vd){
     level =  deltaLevel;
     return deltaLevel;
 }
+
+function VdCalc(weight){
+    return Number(weight);
+}

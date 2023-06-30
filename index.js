@@ -151,7 +151,7 @@ function makeTable(vanc, choice) {
 
 }
 
-function makeTableDosedLevels(vancObjArray) {
+/*function makeTableDosedLevels(vancObjArray) {
 
   for (var counter in vancObjArray) {
 
@@ -189,15 +189,17 @@ function makeTableDosedLevels(vancObjArray) {
       newLevel = decayedLevel(prevVanc,1,prevVanc.K);
     }else{
       newLevel = currentLevel;
-    }*/
+    }
 
     vancObjArray[counter].level = Math.round(newLevel*10)/10;
 // spawned levels are missing when above is changed from vancObjArray[counter].changedLevel = Math.round(newLevel*10)/10;
   }
 
-}
+}*/
 
-function makeTableLevels(vancObjArray) {
+
+
+function makeTableLevels(vancObjArray, Vd) {
 
   //write something here the rewrites the entire table if restarting over
   for (var counter in vancObjArray) {
@@ -236,8 +238,8 @@ function makeTableLevels(vancObjArray) {
       prevVanc = vancObjArray[Number(counter) - 1];
     }
 
-
-    dosedLevelVar = dosedLevel(vancObjArray[counter],42);
+    console.log("this is the value of " + Vd);
+    dosedLevelVar = dosedLevel(vancObjArray[counter],Vd);
     newLevel = decayedLevel(prevVanc, 1, prevVanc.K)+dosedLevelVar+vancObjArray[counter].level;
     if(vancObjArray[counter].changedLevel==1){
       vancObjArray[counter].level = initValue;
@@ -297,20 +299,31 @@ function makeTableLevels(vancObjArray) {
 
 function buildEverything() {
   //days = 3;
-
-  var days = document.getElementById("DaysToRender").value;
-  var K = document.getElementById("inputK").value;
-  var Vd
+  weight= document.getElementById("inputWeight").value;
+  userInput= {
+    days: document.getElementById("DaysToRender").value,
+    K: document.getElementById("inputK").value,
+    weight: document.getElementById("inputWeight").value,
+    Vd: VdCalc(weight)
+  }
+  console.log(userInput.Vd);
+/*
+  let days = document.getElementById("DaysToRender").value;
+  let K = document.getElementById("inputK").value;
+  let weight = document.getElementById("inputWeight").value;
+  let Vd = VdCalc(weight);*/
+  //console.log(typeof);
 
   document.getElementById("target").innerHTML = "";
+  console.log(userInput.Vd)
+  array = makeArray(userInput.days, userInput.K);
 
-  array = makeArray(days, K);
   makeLevel(array, 20, 1, 21);
   makeLevel(array, 20, 1, 5);
   makeDose(array, 1000, 1, 22);
   //makeDose(array, 1000, 1, 21);
   //makeLevel(array,30,2,1);
-  makeTableLevels(array);
+  makeTableLevels(array, userInput.Vd);
   //makeTableDosedLevels(array);
 
 
@@ -323,6 +336,7 @@ function buildEverything() {
   makeTable(array, 'dose');
   makeTable(array, 'level');
   makeTable(array, 'changedLevel');
+  makeTable(array, 'K');
   /*
       document.getElementById("target").addEventListener("input",  function(){ //make this on button refresh
         somethingChanged();
@@ -341,15 +355,22 @@ function buildEverything() {
 
 function remakeTables() {
   document.getElementById("target").innerHTML = "";
-
+  weight= document.getElementById("inputWeight").value;
+  userInput= {
+    days: document.getElementById("DaysToRender").value,
+    K: document.getElementById("inputK").value,
+    weight: document.getElementById("inputWeight").value,
+    Vd: VdCalc(weight)
+  }
   //makeTableDosedLevels(array);
-  makeTableLevels(array);
+  makeTableLevels(array, userInput.Vd);
 
 
 
   makeTable(array, 'dose');
   makeTable(array, 'level');
   makeTable(array, 'changedLevel');
+  makeTable(array, 'K');
 
 }
   //buildEverything();
